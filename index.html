@@ -1,50 +1,511 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Calculadora Atrasos · FSC Catalunya</title>
+<html lang="es" data-fbscriptallow="true"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Atrasos CCOO</title>
+  <script src="/_sdk/element_sdk.js"></script>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:40px auto;padding:0 16px}
-    header h1{margin:0 0 6px}
-    .brand{color:#2b6cb0;font-weight:700}
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(135deg, #E30613 0%, #C50511 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: #E30613;
+      color: white;
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0 0 8px 0;
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 20px;
+      opacity: 0.95;
+    }
+
+    .header .region {
+      margin: 12px 0 0 0;
+      font-size: 18px;
+      font-weight: 700;
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .content {
+      padding: 40px 32px;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #E8E8E8;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #E30613;
+    }
+
+    .increases-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      background: #F9F9F9;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .increases-table th {
+      background: #E30613;
+      color: white;
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .increases-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E8E8E8;
+    }
+
+    .increases-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .calculate-btn {
+      width: 100%;
+      background: #E30613;
+      color: white;
+      border: none;
+      padding: 18px 32px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 16px;
+    }
+
+    .calculate-btn:hover {
+      background: #C50511;
+    }
+
+    .results {
+      margin-top: 32px;
+      padding: 24px;
+      background: #F0F9FF;
+      border-radius: 8px;
+      border-left: 4px solid #E30613;
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+    }
+
+    .results h3 {
+      margin: 0 0 20px 0;
+      color: #E30613;
+      font-size: 22px;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #DDD;
+    }
+
+    .result-label {
+      color: #555;
+    }
+
+    .result-value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .app-wrapper {
+        padding: 24px 16px;
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
+      .header .region {
+        font-size: 16px;
+      }
+
+      .content {
+        padding: 24px 20px;
+      }
+    }
   </style>
-</head>
-<body>
-  <header>
-    <h1>Calculadora de Atrasos</h1>
-    <div class="brand">Comisiones Obreras 2025</div>
-    <h3>FSC <span id="region">Catalunya</span></h3> <!-- <- aquí -->
-  </header>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ <style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}</style></head>
+ <body>
+  <div class="app-wrapper">
+   <div class="container">
+    <header class="header">
+     <h1 id="main-title">Calculadora de Atrasos</h1>
+     <p id="subtitle">Comisiones Obreras 2025</p>
+     <p class="region" id="region">FSC Catalunyaa</p>
+    </header>
+    <main class="content">
+     <form id="calculator-form">
+      <div class="form-group"><label for="base-salary">Salario Bruto Mensual (€)</label> <input type="number" id="base-salary" step="0.01" min="0" required="" placeholder="Ej: 1500.00">
+      </div>
+      <div class="form-group"><label>Incrementos Aplicados + variables</label>
+       <table class="increases-table">
+        <thead>
+         <tr>
+          <th>Año</th>
+          <th>Incremento</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>2025</td>
+          <td><strong>2,5%</strong> (retroactivo desde 1 de enero)</td>
+         </tr>
+         <tr>
+          <td>2026</td>
+          <td><strong>1,5%</strong> + 0,5% variable IPC</td>
+         </tr>
+         <tr>
+          <td>2027</td>
+          <td><strong>4,5%</strong></td>
+         </tr>
+         <tr>
+          <td>2028</td>
+          <td><strong>2%</strong></td>
+         </tr>
+        </tbody>
+       </table>
+      </div><button type="submit" class="calculate-btn" id="calculate-button">Calcular Atrasos</button>
+     </form>
+     <div class="results show" id="results">
+      <h3>Resultados del Cálculo</h3>
+      <div id="results-content">
+        <div style="background: #FFF3CD; padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid #E30613;">
+          <h4 style="margin: 0 0 12px 0; color: #E30613; font-size: 18px;">PAGO ÚNICO DE ATRASOS 2025</h4>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #555;">Atrasos retroactivos (12 meses + 2 pagas extras)</span>
+            <span style="font-size: 24px; font-weight: 700; color: #E30613;">815.50€</span>
+          </div>
+          <div style="margin-top: 8px; font-size: 14px; color: #666;">
+            Diferencia de 58.25€/mes × 14 pagas
+          </div>
+        </div>
 
-  <section>
-    <label>Salario Bruto Mensual (€)</label>
-    <input id="salary" type="number" value="1500" />
-    <button id="calc">Calcular Atrasos</button>
-  </section>
-
-  <section id="results">
-    <h4>Resultados del Cálculo</h4>
-    <div id="out"></div>
-  </section>
-
+        <div style="background: #E8F5E9; padding: 16px; border-radius: 8px; border-left: 4px solid #4CAF50;">
+          <h4 style="margin: 0 0 12px 0; color: #2E7D32; font-size: 18px;">SALARIOS MENSUALES ACTUALIZADOS</h4>
+      
+          <div class="result-item" style="border-bottom: 1px solid #DDD; padding: 10px 0;">
+            <span class="result-label">2025 (+2.5%)</span>
+            <span class="result-value">2388.25€/mes</span>
+          </div>
+        
+          <div class="result-item" style="border-bottom: 1px solid #DDD; padding: 10px 0;">
+            <span class="result-label">2026 (1,5% + 0,5% IPC variable)</span>
+            <span class="result-value">2436.01€/mes</span>
+          </div>
+        
+          <div class="result-item" style="border-bottom: 1px solid #DDD; padding: 10px 0;">
+            <span class="result-label">2027 (+4.5%)</span>
+            <span class="result-value">2545.64€/mes</span>
+          </div>
+        
+          <div class="result-item" style="border-bottom: 1px solid #DDD; padding: 10px 0;">
+            <span class="result-label">2028 (+2%)</span>
+            <span class="result-value">2596.55€/mes</span>
+          </div>
+        </div>
+        <div style="background: #FFF9E6; padding: 16px; border-radius: 8px; margin-top: 24px; border: 1px solid #FFE082;">
+          <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
+            <strong>Aviso importante:</strong> Este es un cálculo aproximado sin valor documental. Los datos que se desprenden están sujetos a los descuentos personales de cada persona trabajadora (IRPF, cotizaciones a la Seguridad Social, etc.).
+          </p>
+        </div>
+      </div>
+     </div>
+    </main>
+   </div>
+  </div>
   <script>
-    const increments = [
-      { year: 2025, inc: 0.025 },
-      { year: 2026, inc: 0.015 + 0.005 },
-      { year: 2027, inc: 0.045 },
-      { year: 2028, inc: 0.02 }
-    ];
+    const defaultConfig = {
+      main_title: "Calculadora de Atrasos con subidas pactadas",
+      subtitle: "Comisiones Obreras 2025",
+      region: "FSC Región de Murcia",
+      calculate_button: "Calcular Atrasos",
+      primary_color: "#E30613",
+      background_color: "#C50511",
+      text_color: "#333333",
+      surface_color: "#FFFFFF",
+      accent_color: "#F0F9FF"
+    };
 
-    document.getElementById('calc').addEventListener('click', ()=> {
-      const s = parseFloat(document.getElementById('salary').value) || 0;
-      let out = '';
-      increments.forEach(x=>{
-        const diff = s * x.inc;
-        out += `<p>${x.year}: incremento ${ (x.inc*100).toFixed(2) }% → € ${diff.toFixed(2)}</p>`;
+    async function onConfigChange(config) {
+      const mainTitle = config.main_title || defaultConfig.main_title;
+      const subtitle = config.subtitle || defaultConfig.subtitle;
+      const region = config.region || defaultConfig.region;
+      const calculateButton = config.calculate_button || defaultConfig.calculate_button;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+
+      document.getElementById('main-title').textContent = mainTitle;
+      document.getElementById('subtitle').textContent = subtitle;
+      document.getElementById('region').textContent = region;
+      document.getElementById('calculate-button').textContent = calculateButton;
+
+      const appWrapper = document.querySelector('.app-wrapper');
+      appWrapper.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${backgroundColor} 100%)`;
+
+      const header = document.querySelector('.header');
+      header.style.background = primaryColor;
+
+      const tableHeaders = document.querySelectorAll('.increases-table th');
+      tableHeaders.forEach(th => th.style.background = primaryColor);
+
+      const calculateBtn = document.querySelector('.calculate-btn');
+      calculateBtn.style.background = primaryColor;
+
+      const container = document.querySelector('.container');
+      container.style.background = surfaceColor;
+
+      const labels = document.querySelectorAll('.form-group label, .result-label');
+      labels.forEach(label => label.style.color = textColor);
+
+      const results = document.querySelector('.results');
+      results.style.background = accentColor;
+      results.style.borderLeftColor = primaryColor;
+
+      const resultsTitle = document.querySelector('.results h3');
+      if (resultsTitle) resultsTitle.style.color = primaryColor;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["subtitle", config.subtitle || defaultConfig.subtitle],
+        ["region", config.region || defaultConfig.region],
+        ["calculate_button", config.calculate_button || defaultConfig.calculate_button]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
       });
-      document.getElementById('out').innerHTML = out;
+    }
+
+    document.getElementById('calculator-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const baseSalary = parseFloat(document.getElementById('base-salary').value);
+      
+      const increases = {
+        2025: 2.5,
+        2026: 2.0,
+        2027: 4.5,
+        2028: 2.0
+      };
+
+      const salaryWith2025Increase = baseSalary * (1 + increases[2025] / 100);
+      const monthlySalaryIncrease = salaryWith2025Increase - baseSalary;
+      const retroactivePay2025 = monthlySalaryIncrease * 14;
+
+      const futureSalaries = [];
+      let currentSalary = salaryWith2025Increase;
+      
+      futureSalaries.push({
+        year: '2025',
+        salary: currentSalary,
+        increase: increases[2025]
+      });
+
+      currentSalary = currentSalary * (1 + increases[2026] / 100);
+      futureSalaries.push({
+        year: '2026',
+        salary: currentSalary,
+        increase: increases[2026],
+        note: '(1,5% + 0,5% IPC variable)'
+      });
+
+      currentSalary = currentSalary * (1 + increases[2027] / 100);
+      futureSalaries.push({
+        year: '2027',
+        salary: currentSalary,
+        increase: increases[2027]
+      });
+
+      currentSalary = currentSalary * (1 + increases[2028] / 100);
+      futureSalaries.push({
+        year: '2028',
+        salary: currentSalary,
+        increase: increases[2028]
+      });
+
+      displayResults(baseSalary, retroactivePay2025, futureSalaries);
     });
+
+    function displayResults(baseSalary, retroactivePay, futureSalaries) {
+      const resultsContent = document.getElementById('results-content');
+      const resultsDiv = document.getElementById('results');
+
+      let html = `
+        <div style="background: #FFF3CD; padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid #E30613;">
+          <h4 style="margin: 0 0 12px 0; color: #E30613; font-size: 18px;">PAGO ÚNICO DE ATRASOS 2025</h4>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #555;">Atrasos retroactivos (12 meses + 2 pagas extras)</span>
+            <span style="font-size: 24px; font-weight: 700; color: #E30613;">${retroactivePay.toFixed(2)}€</span>
+          </div>
+          <div style="margin-top: 8px; font-size: 14px; color: #666;">
+            Diferencia de ${(futureSalaries[0].salary - baseSalary).toFixed(2)}€/mes × 14 pagas
+          </div>
+        </div>
+
+        <div style="background: #E8F5E9; padding: 16px; border-radius: 8px; border-left: 4px solid #4CAF50;">
+          <h4 style="margin: 0 0 12px 0; color: #2E7D32; font-size: 18px;">SALARIOS MENSUALES ACTUALIZADOS</h4>
+      `;
+
+      futureSalaries.forEach(item => {
+        const yearLabel = item.note ? `${item.year} ${item.note}` : `${item.year} (+${item.increase}%)`;
+        html += `
+          <div class="result-item" style="border-bottom: 1px solid #DDD; padding: 10px 0;">
+            <span class="result-label">${yearLabel}</span>
+            <span class="result-value">${item.salary.toFixed(2)}€/mes</span>
+          </div>
+        `;
+      });
+
+      html += `</div>`;
+
+      html += `
+        <div style="background: #FFF9E6; padding: 16px; border-radius: 8px; margin-top: 24px; border: 1px solid #FFE082;">
+          <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
+            <strong>Aviso importante:</strong> Este es un cálculo aproximado sin valor documental. Los datos que se desprenden están sujetos a los descuentos personales de cada persona trabajadora (IRPF, cotizaciones a la Seguridad Social, etc.).
+          </p>
+        </div>
+      `;
+
+      resultsContent.innerHTML = html;
+      resultsDiv.classList.add('show');
+
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   </script>
-</body>
-</html>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a81d3601053c906',t:'MTc2NDc1MTkyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+</body></html>
