@@ -427,18 +427,18 @@
 
       let html = `
         <div style="background: #FFF3CD; padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid #E30613;">
-          <h4 style="margin: 0 0 12px 0; color: #E30613; font-size: 18px;">PAGO ÚNICO DE ATRASOS 2025</h4>
+          <h4 style="margin: 0 0 12px 0; color: #E30613; font-size: 18px;">PAGAMENT ÚNIC D'ENDARRERIMENTS 2025</h4>
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: #555;">Atrasos retroactivos (12 meses + 2 pagas extras)</span>
+            <span style="color: #555;">Endarreriments retroactius (12 meses + 2 pagas extras)</span>
             <span style="font-size: 24px; font-weight: 700; color: #E30613;">${retroactivePay.toFixed(2)}€</span>
           </div>
           <div style="margin-top: 8px; font-size: 14px; color: #666;">
-            Diferencia de ${(futureSalaries[0].salary - baseSalary).toFixed(2)}€/mes × 14 pagas
+            Diferència de ${(futureSalaries[0].salary - baseSalary).toFixed(2)}€/mes × 14 pagues
           </div>
         </div>
 
         <div style="background: #E8F5E9; padding: 16px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-          <h4 style="margin: 0 0 12px 0; color: #2E7D32; font-size: 18px;">SALARIOS MENSUALES ACTUALIZADOS</h4>
+          <h4 style="margin: 0 0 12px 0; color: #2E7D32; font-size: 18px;">SALARIS MENSUALS ACTUALIZATS</h4>
       `;
 
       futureSalaries.forEach(item => {
@@ -456,7 +456,7 @@
       html += `
         <div style="background: #FFF9E6; padding: 16px; border-radius: 8px; margin-top: 24px; border: 1px solid #FFE082;">
           <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
-            <strong>Aviso importante:</strong> Este es un cálculo aproximado sin valor documental. Los datos que se desprenden están sujetos a los descuentos personales de cada persona trabajadora (IRPF, cotizaciones a la Seguridad Social, etc.).
+            <strong>Avís important:</strong> Aquest es un càlcul aproximat sense valor documental. Les dades que se'n desprenen estan sujectes als descomptes personals de cada persona treballadora (IRPF, cotitzacions a la Seguretat Social, etc.).
           </p>
         </div>
       `;
