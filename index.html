@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Atrasos · FSC Catalunya</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:40px auto;padding:0 16px}
+    header h1{margin:0 0 6px}
+    .brand{color:#2b6cb0;font-weight:700}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Calculadora de Atrasos</h1>
+    <div class="brand">Comisiones Obreras 2025</div>
+    <h3>FSC <span id="region">Catalunya</span></h3> <!-- <- aquí -->
+  </header>
+
+  <section>
+    <label>Salario Bruto Mensual (€)</label>
+    <input id="salary" type="number" value="1500" />
+    <button id="calc">Calcular Atrasos</button>
+  </section>
+
+  <section id="results">
+    <h4>Resultados del Cálculo</h4>
+    <div id="out"></div>
+  </section>
+
+  <script>
+    const increments = [
+      { year: 2025, inc: 0.025 },
+      { year: 2026, inc: 0.015 + 0.005 },
+      { year: 2027, inc: 0.045 },
+      { year: 2028, inc: 0.02 }
+    ];
+
+    document.getElementById('calc').addEventListener('click', ()=> {
+      const s = parseFloat(document.getElementById('salary').value) || 0;
+      let out = '';
+      increments.forEach(x=>{
+        const diff = s * x.inc;
+        out += `<p>${x.year}: incremento ${ (x.inc*100).toFixed(2) }% → € ${diff.toFixed(2)}</p>`;
+      });
+      document.getElementById('out').innerHTML = out;
+    });
+  </script>
+</body>
+</html>
